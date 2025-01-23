@@ -8,8 +8,7 @@ API REST construída com .NET 8 para gerenciamento de mesas, comandas e autentic
 
 ## Funcionalidades
 
-# O sistema fornece endpoints para gerenciar mesas, pedidos e acesso de usuários.
-- 
+- O sistema fornece endpoints para gerenciar mesas, pedidos e acesso de usuários. 
 - Autenticação baseada em JWT
 - Gerenciamento de mesas/comandas
 - Informações detalhadas dos pedidos
