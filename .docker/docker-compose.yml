@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  firebird:
+    image: jacobalberty/firebird:3.0
+    environment:
+      - ISC_PASSWORD=ifoodKey#2025
+      - FIREBIRD_DATABASE=Consumer.DB
+      - FIREBIRD_USER=SYSDBA
+    ports:
+      - "3050:3050"
+    volumes:
+      - firebird_data:/firebird/data
+
+volumes:
+  firebird_data:
