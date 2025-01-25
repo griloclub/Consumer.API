@@ -1,8 +1,11 @@
-﻿using Consumer.Domain.Repositories.User;
+﻿using Consumer.Domain.Repositories.Tables;
+using Consumer.Domain.Repositories.User;
 using Consumer.Domain.Security;
+using Consumer.Domain.Services;
 using Consumer.Infrastructure.Data;
 using Consumer.Infrastructure.Repositories;
 using Consumer.Infrastructure.Security;
+using Consumer.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,13 +16,11 @@ public static class DependecyInjectionExtension
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         AddDbContext(services, configuration);
-        //services.AddScoped<IPasswordEncripter, Security.BCrypt>();
-        //services.AddScoped<ILoggedUser, LoggedUser>();
+        services.AddScoped<IPasswordEncripter, Security.BCrypt>();
+        services.AddScoped<ILoggedUser, LoggedUser>();
 
         AddRepositories(services);
         AddToken(services, configuration);
-
-        //if (!configuration.IsTestEnvironment())
     }
 
     private static void AddRepositories(IServiceCollection serviceDescriptors)
@@ -27,9 +28,8 @@ public static class DependecyInjectionExtension
         //User
         serviceDescriptors.AddScoped<IUserReadOnlyRepository, UserRepository>();
 
-        //Security
-        serviceDescriptors.AddScoped<IPasswordEncripter, Security.BCrypt>();
-
+        //Tables
+        serviceDescriptors.AddScoped<ITablesReadOnlyRepository, TableRepository>();
     }
 
     private static void AddToken(IServiceCollection serviceDescriptors, IConfiguration configuration)

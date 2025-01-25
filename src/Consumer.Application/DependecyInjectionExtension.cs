@@ -1,4 +1,6 @@
 ﻿using Consumer.Application.Mapper;
+using Consumer.Application.UseCases.Tables;
+using Consumer.Application.UseCases.Tables.Interface;
 using Consumer.Application.UseCases.User;
 using Consumer.Application.UseCases.User.Interface;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,5 +23,6 @@ public static class DependecyInjectionExtension
     {
         //User
         serviceDescriptors.AddScoped<ILoginUserUseCase, LoginUserUseCase>();
+        serviceDescriptors.AddScoped<IGetOpenTablesUseCase, GetOpenTablesUseCase>();
     }
 }

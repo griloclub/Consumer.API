@@ -18,10 +18,10 @@ public class ExceptionFilter : IExceptionFilter
 
     private static void HandleProjectExeption(ExceptionContext context)
     {
-        var exceptionExpense = (ConsumerException)context.Exception;
-        var errorResponse = new ResponseErrorJson(exceptionExpense!.GetErros());
+        var exception = (ConsumerException)context.Exception;
+        var errorResponse = new ResponseErrorJson(exception!.GetErros());
 
-        context.HttpContext.Response.StatusCode = exceptionExpense.StatusCode;
+        context.HttpContext.Response.StatusCode = exception.StatusCode;
         context.Result = new ObjectResult(errorResponse);
     }
 

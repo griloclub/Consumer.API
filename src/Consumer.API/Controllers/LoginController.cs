@@ -5,7 +5,7 @@ using Consumer.Communication.Response.Erros;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Consumer.API.Controllers;
-[Route("api/[controller]")]
+[Route("api/login")]
 [ApiController]
 public class LoginController : ControllerBase
 {
