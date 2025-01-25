@@ -24,11 +24,11 @@ public class LoginUserUseCase : ILoginUserUseCase
     {
         var user = await _userReadOnlyRepository.GetByUsernameAsync(request.Username);
         if (user is null)
-            throw new InvalidLoginException(ResourceErrorMessages.EMAIL_OR_PASSWORD_INVALID);
+            throw new InvalidLoginException(ResourceErrorMessages.USERNAME_OR_PASSWORD_INVALID);
 
         var passwordMatch = _passwordEncripter.VerificationPassword(request.Password, user.Password);
         if (!passwordMatch)
-            throw new InvalidLoginException(ResourceErrorMessages.EMAIL_OR_PASSWORD_INVALID);
+            throw new InvalidLoginException(ResourceErrorMessages.USERNAME_OR_PASSWORD_INVALID);
 
         return new ResponseLoginUserJson
         {

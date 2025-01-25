@@ -1,6 +1,8 @@
 using Consumer.Api.Filters;
+using Consumer.API.Helpers;
 using Consumer.API.Middleware;
 using Consumer.Application;
+using Consumer.Domain.Security;
 using Consumer.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -11,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+
+builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
+builder.Services.AddHttpContextAccessor();
 
 // Add services to the container.
 builder.Services.AddControllers();

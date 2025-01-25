@@ -30,13 +30,13 @@ namespace Consumer.Infrastructure.Migrations
                    { 1L, 1, 1L, 1, new DateTime(2025, 1, 24, 9, 0, 0), null },
                    { 2L, 2, 1L, 1, new DateTime(2025, 1, 24, 10, 0, 0), null },
                    { 3L, 3, 1L, 1, new DateTime(2025, 1, 24, 11, 0, 0), null },
-                   { 4L, 4, 1L, 2, new DateTime(2025, 1, 23, 10, 0, 0), new DateTime(2025, 1, 23, 12, 0, 0) },
-                   { 5L, 5, 1L, 2, new DateTime(2025, 1, 23, 11, 0, 0), new DateTime(2025, 1, 23, 13, 0, 0) },
+                   { 4L, 4, 1L, 0, new DateTime(2025, 1, 23, 10, 0, 0), new DateTime(2025, 1, 23, 12, 0, 0) },
+                   { 5L, 5, 1L, 0, new DateTime(2025, 1, 23, 11, 0, 0), new DateTime(2025, 1, 23, 13, 0, 0) },
 
                    // USER 02 (3 mesas - 1 aberta, 2 fechadas)
                    { 6L, 6, 2L, 1, new DateTime(2025, 1, 24, 9, 30, 0), null },
-                   { 7L, 7, 2L, 2, new DateTime(2025, 1, 23, 15, 0, 0), new DateTime(2025, 1, 23, 17, 0, 0) },
-                   { 8L, 8, 2L, 2, new DateTime(2025, 1, 23, 16, 0, 0), new DateTime(2025, 1, 23, 18, 0, 0) },
+                   { 7L, 7, 2L, 0, new DateTime(2025, 1, 23, 15, 0, 0), new DateTime(2025, 1, 23, 17, 0, 0) },
+                   { 8L, 8, 2L, 0, new DateTime(2025, 1, 23, 16, 0, 0), new DateTime(2025, 1, 23, 18, 0, 0) },
 
                    // USER 03 (2 mesas - todas abertas)
                    { 9L, 9, 3L, 1, new DateTime(2025, 1, 24, 10, 0, 0), null },
