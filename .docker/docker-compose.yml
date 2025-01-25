@@ -4,7 +4,7 @@ services:
     image: jacobalberty/firebird:3.0
     environment:
       - ISC_PASSWORD=ifoodKey#2025
-      - FIREBIRD_DATABASE=Consumer.DB
+      - FIREBIRD_DATABASE=DB.Consumer
       - FIREBIRD_USER=SYSDBA
     ports:
       - "3050:3050"

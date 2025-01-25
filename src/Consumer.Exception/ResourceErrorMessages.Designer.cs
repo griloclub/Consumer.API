@@ -61,6 +61,24 @@ namespace Consumer.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Table details not found..
+        /// </summary>
+        public static string DETAILS_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("DETAILS_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Items must have a positive price and quantity..
+        /// </summary>
+        public static string PRICE_AND_QUANTITY_POSITIVE {
+            get {
+                return ResourceManager.GetString("PRICE_AND_QUANTITY_POSITIVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown error..
         /// </summary>
         public static string UNKNOWN_ERROR {

@@ -3,15 +3,18 @@ using Consumer.Infrastructure.Data;
 using FirebirdSql.EntityFrameworkCore.Firebird.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Consumer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250125174952_DatabaseSeed")]
+    partial class DatabaseSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -286,7 +289,7 @@ namespace Consumer.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long?>("UserId")
+                    b.Property<long>("UserId")
                         .HasColumnType("BIGINT");
 
                     b.HasKey("Id");
@@ -299,7 +302,7 @@ namespace Consumer.Infrastructure.Migrations
                         new
                         {
                             Id = 1L,
-                            ClientName = "João Oliveira",
+                            ClientName = "João Oliveira",                            
                             Number = 1,
                             OpenedAt = new DateTime(2025, 1, 25, 12, 49, 52, 36, DateTimeKind.Local).AddTicks(1342),
                             Quantity = 2,
@@ -309,7 +312,7 @@ namespace Consumer.Infrastructure.Migrations
                         new
                         {
                             Id = 2L,
-                            ClientName = "Maria Silva",
+                            ClientName = "Maria Silva",                            
                             Number = 2,
                             OpenedAt = new DateTime(2025, 1, 25, 13, 49, 52, 36, DateTimeKind.Local).AddTicks(1369),
                             Quantity = 3,
@@ -319,7 +322,7 @@ namespace Consumer.Infrastructure.Migrations
                         new
                         {
                             Id = 3L,
-                            ClientName = "Pedro Santos",
+                            ClientName = "Pedro Santos",                            
                             Number = 3,
                             OpenedAt = new DateTime(2025, 1, 25, 14, 4, 52, 36, DateTimeKind.Local).AddTicks(1370),
                             Quantity = 4,
@@ -488,9 +491,113 @@ namespace Consumer.Infrastructure.Migrations
                     b.HasOne("Consumer.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Consumer.Domain.Entities.Values", "Values", b1 =>
+                        {
+                            b1.Property<long>("TableId")
+                                .HasColumnType("BIGINT");
+
+                            b1.Property<decimal>("ServiceFee")
+                                .HasColumnType("DECIMAL(18,2)");
+
+                            b1.Property<decimal>("Total")
+                                .HasColumnType("DECIMAL(18,2)");
+
+                            b1.Property<decimal>("TotalPayment")
+                                .HasColumnType("DECIMAL(18,2)");
+
+                            b1.HasKey("TableId");
+
+                            b1.ToTable("Tables");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TableId");
+
+                            b1.HasData(
+                                new
+                                {
+                                    TableId = 1L,
+                                    ServiceFee = 15.68m,
+                                    Total = 156.80m,
+                                    TotalPayment = 172.48m
+                                },
+                                new
+                                {
+                                    TableId = 2L,
+                                    ServiceFee = 23.45m,
+                                    Total = 234.50m,
+                                    TotalPayment = 257.95m
+                                },
+                                new
+                                {
+                                    TableId = 3L,
+                                    ServiceFee = 34.56m,
+                                    Total = 345.60m,
+                                    TotalPayment = 380.16m
+                                },
+                                new
+                                {
+                                    TableId = 4L,
+                                    ServiceFee = 17.89m,
+                                    Total = 178.90m,
+                                    TotalPayment = 196.79m
+                                },
+                                new
+                                {
+                                    TableId = 5L,
+                                    ServiceFee = 26.78m,
+                                    Total = 267.80m,
+                                    TotalPayment = 294.58m
+                                },
+                                new
+                                {
+                                    TableId = 6L,
+                                    ServiceFee = 18.99m,
+                                    Total = 189.90m,
+                                    TotalPayment = 208.89m
+                                },
+                                new
+                                {
+                                    TableId = 7L,
+                                    ServiceFee = 45.67m,
+                                    Total = 456.70m,
+                                    TotalPayment = 502.37m
+                                },
+                                new
+                                {
+                                    TableId = 8L,
+                                    ServiceFee = 23.45m,
+                                    Total = 234.50m,
+                                    TotalPayment = 257.95m
+                                },
+                                new
+                                {
+                                    TableId = 9L,
+                                    ServiceFee = 34.56m,
+                                    Total = 345.60m,
+                                    TotalPayment = 380.16m
+                                },
+                                new
+                                {
+                                    TableId = 10L,
+                                    ServiceFee = 17.89m,
+                                    Total = 178.90m,
+                                    TotalPayment = 196.79m
+                                },
+                                new
+                                {
+                                    TableId = 11L,
+                                    ServiceFee = 56.78m,
+                                    Total = 567.80m,
+                                    TotalPayment = 624.58m
+                                });
+                        });
 
                     b.Navigation("User");
+
+                    b.Navigation("Values");
                 });
 
             modelBuilder.Entity("Consumer.Domain.Entities.Item", b =>

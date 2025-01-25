@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Consumer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250124160244_SeedInitialData")]
-    partial class SeedInitialData
+    [Migration("20250125173502_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace Consumer.Infrastructure.Migrations
                         .HasColumnType("BIGINT")
                         .HasAnnotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("ItemId")
+                    b.Property<long>("ItemId")
                         .HasColumnType("BIGINT");
 
                     b.Property<string>("Name")
@@ -45,7 +45,7 @@ namespace Consumer.Infrastructure.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("Addition");
+                    b.ToTable("Additions");
                 });
 
             modelBuilder.Entity("Consumer.Domain.Entities.Item", b =>
@@ -62,20 +62,20 @@ namespace Consumer.Infrastructure.Migrations
                     b.Property<string>("Observation")
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
-                    b.Property<long?>("OrderDetailId")
-                        .HasColumnType("BIGINT");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("DECIMAL(18,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
+                    b.Property<long>("TableId")
+                        .HasColumnType("BIGINT");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderDetailId");
+                    b.HasIndex("TableId");
 
-                    b.ToTable("Item");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("Consumer.Domain.Entities.Option", b =>
@@ -85,7 +85,7 @@ namespace Consumer.Infrastructure.Migrations
                         .HasColumnType("BIGINT")
                         .HasAnnotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("ItemId")
+                    b.Property<long>("ItemId")
                         .HasColumnType("BIGINT");
 
                     b.Property<string>("Name")
@@ -96,10 +96,10 @@ namespace Consumer.Infrastructure.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("Option");
+                    b.ToTable("Options");
                 });
 
-            modelBuilder.Entity("Consumer.Domain.Entities.OrderDetail", b =>
+            modelBuilder.Entity("Consumer.Domain.Entities.Table", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -110,38 +110,6 @@ namespace Consumer.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("BLOB SUB_TYPE TEXT");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("ServiceFee")
-                        .HasColumnType("DECIMAL(18,2)");
-
-                    b.Property<long>("TableId")
-                        .HasColumnType("BIGINT");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("DECIMAL(18,2)");
-
-                    b.Property<decimal>("TotalPayment")
-                        .HasColumnType("DECIMAL(18,2)");
-
-                    b.Property<DateTime>("TotalTime")
-                        .HasColumnType("TIMESTAMP");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TableId");
-
-                    b.ToTable("OrderDetails");
-                });
-
-            modelBuilder.Entity("Consumer.Domain.Entities.Table", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("BIGINT")
-                        .HasAnnotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn);
-
                     b.Property<DateTime?>("ClosedAt")
                         .HasColumnType("TIMESTAMP");
 
@@ -150,6 +118,9 @@ namespace Consumer.Infrastructure.Migrations
 
                     b.Property<DateTime>("OpenedAt")
                         .HasColumnType("TIMESTAMP");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");
@@ -191,24 +162,12 @@ namespace Consumer.Infrastructure.Migrations
                 {
                     b.HasOne("Consumer.Domain.Entities.Item", null)
                         .WithMany("Additions")
-                        .HasForeignKey("ItemId");
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Consumer.Domain.Entities.Item", b =>
-                {
-                    b.HasOne("Consumer.Domain.Entities.OrderDetail", null)
-                        .WithMany("Itens")
-                        .HasForeignKey("OrderDetailId");
-                });
-
-            modelBuilder.Entity("Consumer.Domain.Entities.Option", b =>
-                {
-                    b.HasOne("Consumer.Domain.Entities.Item", null)
-                        .WithMany("Options")
-                        .HasForeignKey("ItemId");
-                });
-
-            modelBuilder.Entity("Consumer.Domain.Entities.OrderDetail", b =>
                 {
                     b.HasOne("Consumer.Domain.Entities.Table", null)
                         .WithMany("Items")
@@ -217,13 +176,48 @@ namespace Consumer.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Consumer.Domain.Entities.Option", b =>
+                {
+                    b.HasOne("Consumer.Domain.Entities.Item", null)
+                        .WithMany("Options")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Consumer.Domain.Entities.Table", b =>
                 {
-                    b.HasOne("Consumer.Domain.Entities.User", null)
+                    b.HasOne("Consumer.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.OwnsOne("Consumer.Domain.Entities.Values", "Values", b1 =>
+                        {
+                            b1.Property<long>("TableId")
+                                .HasColumnType("BIGINT");
+
+                            b1.Property<decimal>("ServiceFee")
+                                .HasColumnType("DECIMAL(18,2)");
+
+                            b1.Property<decimal>("Total")
+                                .HasColumnType("DECIMAL(18,2)");
+
+                            b1.Property<decimal>("TotalPayment")
+                                .HasColumnType("DECIMAL(18,2)");
+
+                            b1.HasKey("TableId");
+
+                            b1.ToTable("Tables");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TableId");
+                        });
+
+                    b.Navigation("User");
+
+                    b.Navigation("Values");
                 });
 
             modelBuilder.Entity("Consumer.Domain.Entities.Item", b =>
@@ -231,11 +225,6 @@ namespace Consumer.Infrastructure.Migrations
                     b.Navigation("Additions");
 
                     b.Navigation("Options");
-                });
-
-            modelBuilder.Entity("Consumer.Domain.Entities.OrderDetail", b =>
-                {
-                    b.Navigation("Itens");
                 });
 
             modelBuilder.Entity("Consumer.Domain.Entities.Table", b =>

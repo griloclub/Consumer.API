@@ -5,4 +5,5 @@ public interface ITablesReadOnlyRepository
 {
     Task<List<Table>> GetOpenTables(Entities.User user);
     Task<List<Table>> GetAllTables();
+    Task<Table?> GetTableDetails(long id);
 }

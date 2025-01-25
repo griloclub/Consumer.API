@@ -23,6 +23,7 @@ public static class DependecyInjectionExtension
     {
         //User
         serviceDescriptors.AddScoped<ILoginUserUseCase, LoginUserUseCase>();
-        serviceDescriptors.AddScoped<IGetOpenTablesUseCase, GetOpenTablesUseCase>();
+        serviceDescriptors.AddScoped<IGetTablesUseCase, GetTablesUseCase>();
+        serviceDescriptors.AddScoped<IGetTableDetailsUseCase, GetTableDetailsUseCase>();
     }
 }
