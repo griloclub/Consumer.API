@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DETAILS_NOT_FOUND" xml:space="preserve">
+    <value>Detalhes da mesa não encontrados.</value>
+  </data>
+  <data name="PRICE_AND_QUANTITY_POSITIVE" xml:space="preserve">
+    <value>Itens devem ter preço e quantidade positivos.</value>
+  </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Erro desconhecido.</value>
   </data>

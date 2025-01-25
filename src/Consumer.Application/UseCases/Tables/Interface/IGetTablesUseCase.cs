@@ -1,7 +1,7 @@
 ﻿using Consumer.Communication.Response;
 
 namespace Consumer.Application.UseCases.Tables.Interface;
-public interface IGetOpenTablesUseCase
+public interface IGetTablesUseCase
 {
-    Task<ResponseTableJson> GetOpenTablesAsync();
+    Task<ResponseTableJson> GetTablesAsync();
 }

@@ -14,6 +14,16 @@ internal class TableRepository : ITablesReadOnlyRepository
         return await _dbContext.Tables.AsNoTracking().ToListAsync();
     }
 
+    public async Task<Table?> GetTableDetails(long id)
+    {
+        return await _dbContext.Tables.AsNoTracking()
+        .Where(x => x.Id.Equals(id))
+        .Include(u => u.User)
+        .Include(i => i.Items).ThenInclude(a => a.Additions)
+        .Include(i => i.Items).ThenInclude(o => o.Options)
+        .FirstOrDefaultAsync();
+    }
+
     public async Task<List<Table>> GetOpenTables(User user)
     {
         return await _dbContext.Tables.AsNoTracking().Where(x => x.UserId.Equals(user.Id)).ToListAsync();
