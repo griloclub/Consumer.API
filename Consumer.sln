@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerValidators.Tests", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docker", ".docker", "{E98C9D5F-6E94-403B-A56D-B222F79C69C1}"
 	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
+		.docker\docker-compose.yml = .docker\docker-compose.yml
 	EndProjectSection
 EndProject
 Global

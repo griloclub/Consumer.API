@@ -13,5 +13,27 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+        modelBuilder.Entity<Table>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(t => t.UserId);
+
+        modelBuilder.Entity<Table>()
+            .HasMany(t => t.Items)
+            .WithOne()
+            .HasForeignKey(o => o.TableId);
+
+        modelBuilder.Entity<OrderDetail>()
+            .HasMany(o => o.Itens)
+            .WithOne();
+
+        modelBuilder.Entity<Item>()
+            .HasMany(i => i.Additions)
+            .WithOne();
+
+        modelBuilder.Entity<Item>()
+            .HasMany(i => i.Options)
+            .WithOne();
     }
 }
