@@ -3,13 +3,30 @@ using Consumer.Domain.Security;
 using Moq;
 
 namespace CommonTests.Token;
-public class JwtTokenGeneratorBuild
+public class JwtTokenGeneratorBuilder
 {
-    public static IAccessTokenGenerator Build()
-    {
-        var mock = new Mock<IAccessTokenGenerator>();
+    private readonly Mock<IAccessTokenGenerator> _tokenGenerator;
+    private string? _password;
+    private User? _user;
 
-        mock.Setup(accessTokenGenerator => accessTokenGenerator.GenerateAccessToken(It.IsAny<User>())).Returns("Token");
-        return mock.Object;
+    public JwtTokenGeneratorBuilder()
+    {
+        _tokenGenerator = new Mock<IAccessTokenGenerator>();
     }
+
+    public JwtTokenGeneratorBuilder WithPassword(string? password)
+    {
+        _password = password;
+        return this;
+    }
+
+    public JwtTokenGeneratorBuilder WithUser(User user)
+    {
+        _user = user;
+        _tokenGenerator.Setup(t => t.GenerateAccessToken(_user))
+                      .Returns("token_test");
+        return this;
+    }
+
+    public IAccessTokenGenerator Build() => _tokenGenerator.Object;
 }

@@ -24,11 +24,13 @@ public class GetTableDetailsUseCase : IGetTableDetailsUseCase
         if (detail is null)
             throw new NotFoundException(ResourceErrorMessages.DETAILS_NOT_FOUND);
 
-        Validate(detail);
-        return _mapper.Map<ResponseTableDetailsJson>(detail);
+        var response = _mapper.Map<ResponseTableDetailsJson>(detail);
+        Validate(response);
+
+        return response;
     }
 
-    private void Validate(Domain.Entities.Table detail)
+    private void Validate(ResponseTableDetailsJson detail)
     {
         var validator = new TableDetailsValidator();
 

@@ -6,15 +6,18 @@ namespace CommonTests.Repositories;
 public class UserReadOnlyRepositoryBuilder
 {
     private readonly Mock<IUserReadOnlyRepository> _repository;
+    private User? _user;
 
     public UserReadOnlyRepositoryBuilder()
     {
         _repository = new Mock<IUserReadOnlyRepository>();
     }
 
-    public UserReadOnlyRepositoryBuilder GetUserByEmail(User user)
+    public UserReadOnlyRepositoryBuilder WithUser(User user)
     {
-        _repository.Setup(repository => repository.GetByUsernameAsync(user.Username)).ReturnsAsync(user);
+        _user = user;
+        _repository.Setup(r => r.GetByUsernameAsync(user.Username))
+                  .ReturnsAsync(user);
         return this;
     }
 
