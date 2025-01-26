@@ -4,6 +4,7 @@ using Consumer.API.Middleware;
 using Consumer.Application;
 using Consumer.Domain.Security;
 using Consumer.Infrastructure;
+using Consumer.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -89,3 +90,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

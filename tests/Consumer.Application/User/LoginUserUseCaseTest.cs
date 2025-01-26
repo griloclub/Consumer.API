@@ -12,14 +12,14 @@ namespace ConsumerApplication.Tests.User;
 public class LoginUserUseCaseTest
 {
     [Fact]
-    public async Task Success()
+    //Testa se o login foi bem-sucedido, verificando retorno do token e nome (Username)
+    public async Task Success_Return_TokenAndUsername()
     {
         var user = UserBuilder.Build();
         var request = RequestLoginUserJsonBuilder.Build();
         request.Username = user.Username;
 
-        var useCase = CreatedUseCase(user, request.Password);
-
+        var useCase = CreateUseCase(user, request.Password);
         var response = await useCase.Login(request);
 
         response.Should().NotBeNull();
@@ -28,42 +28,48 @@ public class LoginUserUseCaseTest
     }
 
     [Fact]
-    public async Task Error_User_Not_Found()
+    //Verifica se lança exceção quando usuário não existe
+    public async Task Login_When_UserNotFound_Throw_Exception()
     {
         var user = UserBuilder.Build();
         var request = RequestLoginUserJsonBuilder.Build();
 
-        var useCase = CreatedUseCase(user, request.Password);
+        var useCase = CreateUseCase(user, request.Password);
+        var action = () => useCase.Login(request);
 
-        var function = async () => await useCase.Login(request);
-        var exception = await function.Should().ThrowAsync<InvalidLoginException>();
-
-        var result = exception.Which.GetErros();
-        result.Should().ContainSingle().And.Contain(e => e.Equals(ResourceErrorMessages.USERNAME_OR_PASSWORD_INVALID));
+        await action.Should().ThrowAsync<InvalidLoginException>()
+            .WithMessage(ResourceErrorMessages.USERNAME_OR_PASSWORD_INVALID);
     }
 
     [Fact]
-    public async Task Error_Password_Not_Match()
+    //Testa se lança exceção quando senha está incorreta / username está incorreto
+    public async Task Login_When_PasswordNotMatch_Throw_Exception()
     {
         var user = UserBuilder.Build();
         var request = RequestLoginUserJsonBuilder.Build();
         request.Username = user.Username;
 
-        var useCase = CreatedUseCase(user);
+        var useCase = CreateUseCase(user);
+        var action = () => useCase.Login(request);
 
-        var function = async () => await useCase.Login(request);
-        var exception = await function.Should().ThrowAsync<InvalidLoginException>();
-
-        var result = exception.Which.GetErros();
-        result.Should().ContainSingle().And.Contain(e => e.Equals(ResourceErrorMessages.USERNAME_OR_PASSWORD_INVALID));
+        await action.Should().ThrowAsync<InvalidLoginException>()
+            .WithMessage(ResourceErrorMessages.USERNAME_OR_PASSWORD_INVALID);
     }
 
-    private LoginUserUseCase CreatedUseCase(Consumer.Domain.Entities.User user, string? password = null)
+    private LoginUserUseCase CreateUseCase(Consumer.Domain.Entities.User user, string? password = null)
     {
-        var passwordEncripter = new PasswordEncripterBuilder().Verify(password).Build();
-        var token = JwtTokenGeneratorBuild.Build();
-        var userReadOnlyRepository = new UserReadOnlyRepositoryBuilder().GetUserByEmail(user).Build();
+        var repository = new UserReadOnlyRepositoryBuilder()
+            .WithUser(user)
+            .Build();
 
-        return new LoginUserUseCase(userReadOnlyRepository, passwordEncripter, token);
+        var encrypter = new PasswordEncrypterBuilder()
+            .WithPassword(password)
+            .Build();
+
+        var tokenGenerator = new JwtTokenGeneratorBuilder()
+            .WithUser(user)
+            .Build();
+
+        return new LoginUserUseCase(repository, encrypter, tokenGenerator);
     }
 }
