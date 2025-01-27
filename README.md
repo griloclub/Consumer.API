@@ -63,9 +63,11 @@ Mode                 LastWriteTime         Length Name
 ```
 
 6. Ao chegar nessa parte, você deverá verificar se o docker desktop está aberto (ou inicializado em 2° PLano.)
-7. Caso esteja tudo certo rode o comando : **docker-compose up -d**
-8. O docker irá fazer as configurações corretamente e inicializará o container.
-9. Abrir o **FIREBIRD**, cria uma nova conexão e colocar as configurações do arquivo docker-compose.yml:
+7. Caso esteja tudo certo rode o comando no proximo passo:
+8. ```docker-compose up -d```
+9. O docker irá fazer as configurações corretamente e criar um container.
+10. Inicializar / rodar o container que foi gerado no docker. (Linha de comando ou manualmente).
+11. Abrir o **FIREBIRD**, cria uma nova conexão e colocar as configurações do arquivo docker-compose.yml:
 
 ```
 Password      - ISC_PASSWORD=ifoodKey#2025
